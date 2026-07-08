@@ -1,9 +1,34 @@
 package dev.VeeBee2570.koog;
 
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.logging.LogUtils;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.List;
+
 import org.slf4j.Logger;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.CowModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.SlimeModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,8 +39,19 @@ public class PlayerOverride {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        ExampleMod.LOGGER.info("Intercepted render player event");
+        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/player/wide/steve.png");
+        VertexConsumer buffer = event.getMultiBufferSource().getBuffer(RenderType.entitySolid(texture));
+
+        ExampleMod.LOGGER.info("Intercepted render layer event");
         event.setCanceled(true);
+
+        LayerDefinition cowLayer = CowModel.createBodyLayer();
+        ModelPart cowPart = cowLayer.bakeRoot();
+        CowModel<Cow> model = new CowModel<Cow>(cowPart);
+
+        model.renderToBuffer(event.getPoseStack(), buffer, 1, 1, 1, 1, 1, 1);
+
+
     }
 
     public static void testMessage() {
