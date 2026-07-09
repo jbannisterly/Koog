@@ -31,6 +31,8 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -51,15 +53,19 @@ public class PlayerOverride {
 
         LayerDefinition cowLayer = CowModel.createBodyLayer();
         ModelPart cowPart = cowLayer.bakeRoot();
-        CowModel<Cow> model = new CowModel<Cow>(cowPart);
+        CowModel<LivingEntity> model = new CowModel<LivingEntity>(cowPart);
 
         int light = 15728880;
 
         PoseStack pose = event.getPoseStack();
-        pose.mulPose(Axis.XP.rotationDegrees(180));
-        pose.translate(0, -2, 0);
 
-        model.setupAnim(null, 0.4f, 1f, 190f, 20f, 20f);
+        Player player = event.getEntity();
+
+        pose.mulPose(Axis.XP.rotationDegrees(180));
+        pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
+        pose.translate(0, -1.5, 0);
+
+        model.setupAnim(player, player.tickCount + event.getPartialTick(), 1f, 0, 0, player.getXRot());
 
         model.renderToBuffer(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
