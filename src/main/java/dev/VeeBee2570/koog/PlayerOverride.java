@@ -2,8 +2,10 @@ package dev.VeeBee2570.koog;
 
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.logging.LogUtils;
+import com.mojang.math.Axis;
 
 import java.util.Collections;
 import java.util.Map;
@@ -23,8 +25,10 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Cow;
@@ -39,8 +43,8 @@ public class PlayerOverride {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/player/wide/steve.png");
-        VertexConsumer buffer = event.getMultiBufferSource().getBuffer(RenderType.entitySolid(texture));
+        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/cow/cow.png");
+        VertexConsumer buffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(texture));
 
         ExampleMod.LOGGER.info("Intercepted render layer event");
         event.setCanceled(true);
@@ -49,8 +53,15 @@ public class PlayerOverride {
         ModelPart cowPart = cowLayer.bakeRoot();
         CowModel<Cow> model = new CowModel<Cow>(cowPart);
 
-        model.renderToBuffer(event.getPoseStack(), buffer, 1, 1, 1, 1, 1, 1);
+        int light = 15728880;
 
+        PoseStack pose = event.getPoseStack();
+        pose.mulPose(Axis.XP.rotationDegrees(180));
+        pose.translate(0, -2, 0);
+
+        model.setupAnim(null, 0.4f, 1f, 190f, 20f, 20f);
+
+        model.renderToBuffer(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
     }
 
