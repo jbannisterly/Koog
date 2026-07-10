@@ -45,15 +45,15 @@ public class PlayerOverride {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/cow/cow.png");
+        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/ball/ball.png");
         VertexConsumer buffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(texture));
 
         ExampleMod.LOGGER.info("Intercepted render layer event");
         event.setCanceled(true);
 
-        LayerDefinition cowLayer = CowModel.createBodyLayer();
-        ModelPart cowPart = cowLayer.bakeRoot();
-        CowModel<LivingEntity> model = new CowModel<LivingEntity>(cowPart);
+        LayerDefinition ballLayer = BallModel.createBodyLayer();
+        ModelPart ballPart = ballLayer.bakeRoot();
+        BallModel<LivingEntity> model = new BallModel<LivingEntity>(ballPart);
 
         int light = 15728880;
 
