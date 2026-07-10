@@ -58,9 +58,9 @@ public class PlayerOverride {
         int light = 15728880;
 
         PoseStack pose = event.getPoseStack();
-
         Player player = event.getEntity();
 
+        pose.pushPose();
         pose.mulPose(Axis.XP.rotationDegrees(180));
         pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
         pose.translate(0, -1.5, 0);
@@ -69,6 +69,7 @@ public class PlayerOverride {
 
         model.renderToBuffer(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
+        pose.popPose();
     }
 
     public static void testMessage() {
