@@ -26,8 +26,8 @@ public class BallModel<E extends Entity> extends EntityModel<E> {
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition partDefinition = meshDefinition.getRoot();
-        partDefinition.addOrReplaceChild("ball", CubeListBuilder.create().texOffs(0, 0).addBox(-8, -8, -8, 16, 16, 16), PartPose.offset(0, 0, 0));
-        return LayerDefinition.create(meshDefinition, 32, 32);
+        partDefinition.addOrReplaceChild("ball", CubeListBuilder.create().texOffs(1, 0).addBox(-8, -8, -8, 16, 16, 16), PartPose.offset(0, 0, 0));
+        return LayerDefinition.create(meshDefinition, 128, 128);
     }
 
     @Override
