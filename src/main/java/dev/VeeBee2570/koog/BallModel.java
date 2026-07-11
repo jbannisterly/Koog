@@ -19,9 +19,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BallModel<E extends Entity> extends EntityModel<E> {
     protected final ModelPart ball;
+    protected final ModelPart eye;
 
     protected BallModel(ModelPart modelPart) {
         this.ball = modelPart.getChild("ball");
+        this.eye = modelPart.getChild("eyes");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -61,6 +63,10 @@ public class BallModel<E extends Entity> extends EntityModel<E> {
 .texOffs(92,42).addBox(-8,-3,-1,16,6,2, new CubeDeformation(0.03f))
         , PartPose.offset(0, 0, 0));
 
+        partDefinition.addOrReplaceChild("eyes", CubeListBuilder.create()
+        .texOffs(0, 0).addBox(-8, -8, -8, 16, 16, 16, new CubeDeformation(0.05f))
+        , PartPose.offset(0, 0, 0));
+
         return LayerDefinition.create(meshDefinition, 256, 256);
     }
 
@@ -77,8 +83,18 @@ public class BallModel<E extends Entity> extends EntityModel<E> {
         });
     }
 
+    public void renderEyes(PoseStack poseStack, VertexConsumer vertexConsumer, int p_103113_, int p_103114_) {
+        this.EyeParts().forEach((part) -> {
+            part.render(poseStack, vertexConsumer, p_103113_, p_103114_);
+        });
+    }
+
     protected Iterable<ModelPart> BallParts() {
         return ImmutableList.of(this.ball);
+    }
+
+    protected Iterable<ModelPart> EyeParts() {
+        return ImmutableList.of(this.eye);
     }
     
 }

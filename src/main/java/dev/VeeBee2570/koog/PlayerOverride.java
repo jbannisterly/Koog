@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.List;
 
+import org.codehaus.plexus.util.dag.Vertex;
 import org.slf4j.Logger;
 
 import net.minecraft.client.Minecraft;
@@ -42,18 +43,11 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value=Dist.CLIENT)
 public class PlayerOverride {
 
-
+    private static BallModel<LivingEntity> model;
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/ball/example.png");
-        VertexConsumer buffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(texture));
-
         ExampleMod.LOGGER.info("Intercepted render layer event");
         event.setCanceled(true);
-
-        LayerDefinition ballLayer = BallModel.createBodyLayer();
-        ModelPart ballPart = ballLayer.bakeRoot();
-        BallModel<LivingEntity> model = new BallModel<LivingEntity>(ballPart);
 
         int light = 15728880;
 
@@ -65,9 +59,16 @@ public class PlayerOverride {
         pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
         pose.translate(0, -0.5, 0);
 
-        model.setupAnim(player, player.tickCount + event.getPartialTick(), 1f, 0, 0, player.getXRot());
-
-        model.renderToBuffer(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        PlayerOverride.model.setupAnim(player, player.tickCount + event.getPartialTick(), 1f, 0, 0, player.getXRot());
+        
+        
+        ResourceLocation bodyTexture = new ResourceLocation("minecraft", "textures/entity/ball/default_atlas.png");
+        VertexConsumer bodyBuffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(bodyTexture));
+        PlayerOverride.model.renderToBuffer(pose, bodyBuffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        
+        ResourceLocation eyeTexture = new ResourceLocation("minecraft", "textures/entity/ball/eye.png");
+        VertexConsumer eyeBuffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(eyeTexture));
+        PlayerOverride.model.renderEyes(pose, eyeBuffer, light, OverlayTexture.NO_OVERLAY);
 
         pose.popPose();
     }
@@ -78,5 +79,10 @@ public class PlayerOverride {
 
     static  {
         ExampleMod.LOGGER.info("PlayerOverride class initialised");
+        LayerDefinition ballLayer = BallModel.createBodyLayer();
+        ModelPart ballPart = ballLayer.bakeRoot();
+        PlayerOverride.model = new BallModel<LivingEntity>(ballPart);
+
+        
     }
 }
