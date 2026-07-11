@@ -62,8 +62,8 @@ public class PlayerOverride {
 
         pose.pushPose();
         pose.mulPose(Axis.XP.rotationDegrees(180));
-        // pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
-        pose.translate(0, -1.5, 0);
+        pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
+        pose.translate(0, -0.5, 0);
 
         model.setupAnim(player, player.tickCount + event.getPartialTick(), 1f, 0, 0, player.getXRot());
 
