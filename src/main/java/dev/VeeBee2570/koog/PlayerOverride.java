@@ -35,7 +35,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Explosion.BlockInteraction;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -71,6 +76,8 @@ public class PlayerOverride {
         PlayerOverride.model.renderEyes(pose, eyeBuffer, light, OverlayTexture.NO_OVERLAY);
 
         pose.popPose();
+
+        player.level().explode(player, player.getX(), player.getY(), player.getZ(), 10.0f, Level.ExplosionInteraction.BLOCK);
     }
 
     public static void testMessage() {
