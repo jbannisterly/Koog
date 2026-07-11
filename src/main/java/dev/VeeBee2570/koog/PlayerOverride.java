@@ -45,7 +45,7 @@ public class PlayerOverride {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/ball/ball.png");
+        ResourceLocation texture =         new ResourceLocation("minecraft", "textures/entity/ball/example.png");
         VertexConsumer buffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(texture));
 
         ExampleMod.LOGGER.info("Intercepted render layer event");
@@ -62,7 +62,7 @@ public class PlayerOverride {
 
         pose.pushPose();
         pose.mulPose(Axis.XP.rotationDegrees(180));
-        pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
+        // pose.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
         pose.translate(0, -1.5, 0);
 
         model.setupAnim(player, player.tickCount + event.getPartialTick(), 1f, 0, 0, player.getXRot());
