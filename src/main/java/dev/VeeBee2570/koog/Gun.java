@@ -7,32 +7,29 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class CustomItemTest extends Item{
+public class Gun extends Item{
 
-    public CustomItemTest(Properties p_41383_) {
+    public Gun(Properties p_41383_) {
         super(p_41383_);
     }
 
-    BowItem bow;
+    public void Fire(Level level, Player player) {
+        Grenade grenade = new Grenade(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(0.5), player.getZ()));
+        level.addFreshEntity(grenade);
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ExampleMod.LOGGER.info("Item used");
-
-        Grenade grenade = new Grenade(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(0.5), player.getZ()));
-
-        ExampleMod.LOGGER.info("grenade object created");
-
-        level.addFreshEntity(grenade);
-
-        ExampleMod.LOGGER.info("entity added");
-
+        this.Fire(level, player);
         return InteractionResultHolder.pass(player.getItemInHand(hand));
     }
 }

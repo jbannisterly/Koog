@@ -1,5 +1,6 @@
 package dev.VeeBee2570.koog;
 
+import com.google.common.graph.Network;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -57,8 +58,7 @@ public class ExampleMod
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new CustomItemTest(new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEat().nutrition(1).saturationMod(2f).build())));
+    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("gun", () -> new Gun(new Item.Properties()));
 
     public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.5f, 0.5f).updateInterval(1).build("grenade"));
 
@@ -94,6 +94,8 @@ public class ExampleMod
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        NetworkMessages.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
