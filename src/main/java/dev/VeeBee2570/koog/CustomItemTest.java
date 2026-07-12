@@ -25,14 +25,10 @@ public class CustomItemTest extends Item{
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ExampleMod.LOGGER.info("Item used");
 
-        Grenade grenade = new Grenade(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(), player.getZ()));
+        Grenade grenade = new Grenade(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(0.5), player.getZ()));
 
         ExampleMod.LOGGER.info("grenade object created");
 
-        PrimedTnt tnt = new PrimedTnt(level, player.getX(), player.getY(), player.getZ(), player);
-        tnt.setDeltaMovement(player.getLookAngle().multiply(3, 3, 3));
-
-        // level.addFreshEntity(tnt);
         level.addFreshEntity(grenade);
 
         ExampleMod.LOGGER.info("entity added");

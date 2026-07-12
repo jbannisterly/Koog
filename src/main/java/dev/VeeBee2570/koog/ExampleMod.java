@@ -60,7 +60,7 @@ public class ExampleMod
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new CustomItemTest(new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.5f, 0.5f).build("grenade"));
+    public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.5f, 0.5f).updateInterval(1).build("grenade"));
 
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
