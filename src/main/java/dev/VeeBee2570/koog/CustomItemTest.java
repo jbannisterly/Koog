@@ -11,6 +11,7 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class CustomItemTest extends Item{
 
@@ -24,10 +25,17 @@ public class CustomItemTest extends Item{
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ExampleMod.LOGGER.info("Item used");
 
+        Grenade grenade = new Grenade(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(), player.getZ()));
+
+        ExampleMod.LOGGER.info("grenade object created");
+
         PrimedTnt tnt = new PrimedTnt(level, player.getX(), player.getY(), player.getZ(), player);
         tnt.setDeltaMovement(player.getLookAngle().multiply(3, 3, 3));
 
-        level.addFreshEntity(tnt);
+        // level.addFreshEntity(tnt);
+        level.addFreshEntity(grenade);
+
+        ExampleMod.LOGGER.info("entity added");
 
         return InteractionResultHolder.pass(player.getItemInHand(hand));
     }
