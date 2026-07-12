@@ -35,13 +35,13 @@ public class Grenade extends Projectile {
         super.tick();
 
         if (!this.level().isClientSide) {
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04, 0));
             HitResult hit = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
             if (hit.getType() != HitResult.Type.MISS) {
                 this.level().explode(this, this.getX(), this.getY(), this.getZ(), 3.0f, Level.ExplosionInteraction.TNT);
                 this.discard();
             }
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04, 0));
         }
 
     }
