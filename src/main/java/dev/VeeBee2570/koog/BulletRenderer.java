@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.MinecartModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -15,17 +17,20 @@ import net.minecraft.resources.ResourceLocation;
 
 public class BulletRenderer extends EntityRenderer<Bullet> {
 
-    protected Model grenadeModel;
+    protected Model bulletModel;
 
     protected BulletRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.grenadeModel = new MinecartModel<>(context.bakeLayer(ModelLayers.MINECART));
+        LayerDefinition bulletLayer = BulletModel.createBodyLayer();
+        ModelPart bulletPart = bulletLayer.bakeRoot();
+
+        this.bulletModel = new BulletModel<Bullet>(bulletPart);
     }
 
     @Override
     public void render(Bullet grenade, float rotation, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(grenade)));
-        this.grenadeModel.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        this.bulletModel.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     }
 
 
