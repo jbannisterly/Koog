@@ -14,6 +14,11 @@ public class ClientRegister {
             ExampleMod.GRENADE_TYPE.get(),
             GrenadeRenderer::new
         );
+
+        event.registerEntityRenderer(
+            ExampleMod.BULLET_TYPE.get(),
+            BulletRenderer::new
+        );
     }
 
 }

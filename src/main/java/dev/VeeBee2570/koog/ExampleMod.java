@@ -58,16 +58,20 @@ public class ExampleMod
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("gun", () -> new Gun(new Item.Properties()).SetBulletFactory(new GrenadeFactory()));
+    public static final RegistryObject<Item> GRENADE_LAUNCHER = ITEMS.register("grenade_launcher", () -> new Gun(new Item.Properties()).SetBulletFactory(new GrenadeFactory()));
+    public static final RegistryObject<Item> GUN = ITEMS.register("gun", () -> new Gun(new Item.Properties()).SetBulletFactory(new BulletFactory()));
+
 
     public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.5f, 0.5f).updateInterval(1).build("grenade"));
+    public static final RegistryObject<EntityType<Bullet>> BULLET_TYPE = ENTITIES.register("bullet", () -> EntityType.Builder.<Bullet>of(Bullet::new, MobCategory.MISC).sized(0.5f, 0.5f).updateInterval(1).build("bullet"));
 
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(() -> GRENADE_LAUNCHER.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(GRENADE_LAUNCHER.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(GUN.get());
             }).build());
 
     public ExampleMod(FMLJavaModLoadingContext context)

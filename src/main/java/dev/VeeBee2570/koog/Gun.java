@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class Gun extends Item{
 
-    private BulletFactory bulletFactory;
+    private ProjectileFactory bulletFactory;
     private int bulletQuantity = 1;
 
     public Gun(Properties p_41383_) {
@@ -25,7 +25,7 @@ public class Gun extends Item{
         }
     }
 
-    public Gun SetBulletFactory(BulletFactory bulletFactory) {
+    public Gun SetBulletFactory(ProjectileFactory bulletFactory) {
         this.bulletFactory = bulletFactory;
         return this;
     }

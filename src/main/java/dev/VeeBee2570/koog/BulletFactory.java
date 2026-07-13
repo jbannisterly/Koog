@@ -5,6 +5,11 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class BulletFactory {
-    public abstract Projectile get(Level level, Player player, Vec3 fireAngle, Vec3 startPosition);
+public class BulletFactory extends ProjectileFactory {
+
+    @Override
+    public Projectile get(Level level, Player player, Vec3 fireAngle, Vec3 startPosition) {
+        return new Bullet(level, player, fireAngle, startPosition);
+    }
+    
 }
