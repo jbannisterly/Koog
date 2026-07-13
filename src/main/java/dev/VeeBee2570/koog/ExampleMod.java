@@ -58,7 +58,7 @@ public class ExampleMod
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("gun", () -> new Gun(new Item.Properties()));
+    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("gun", () -> new Gun(new Item.Properties()).SetBulletFactory(new GrenadeFactory()));
 
     public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.5f, 0.5f).updateInterval(1).build("grenade"));
 
