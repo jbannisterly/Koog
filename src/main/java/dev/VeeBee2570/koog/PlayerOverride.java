@@ -6,13 +6,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,8 +24,14 @@ import net.minecraftforge.fml.common.Mod;
 public class PlayerOverride {
 
     private static BallModel<LivingEntity> model;
+    private static ItemInHandRenderer inHandRenderer = null;
+
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
+        if (inHandRenderer == null) {
+           PlayerOverride.inHandRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer();
+        }
+
         ExampleMod.LOGGER.info("Intercepted render layer event");
         event.setCanceled(true);
 
@@ -48,6 +57,15 @@ public class PlayerOverride {
         PlayerOverride.model.renderEyes(pose, eyeBuffer, light, OverlayTexture.NO_OVERLAY);
 
         pose.popPose();
+        pose.pushPose();
+
+        pose.mulPose(Axis.YN.rotationDegrees(player.getYRot()));
+        pose.translate(-0.8, 0.5, 0);
+
+        inHandRenderer.renderItem(player, player.getMainHandItem(), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, false, pose, event.getMultiBufferSource(), light);
+    
+        pose.popPose();
+
     }
 
     public static void testMessage() {
