@@ -34,6 +34,7 @@ public class Grenade extends Projectile {
             if (hit.getType() != HitResult.Type.MISS) {
                 this.level().explode(this, this.getX(), this.getY(), this.getZ(), 3.0f, Level.ExplosionInteraction.TNT);
                 this.discard();
+                return;
             }
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04, 0));

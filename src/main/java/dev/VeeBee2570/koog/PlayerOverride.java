@@ -59,7 +59,5 @@ public class PlayerOverride {
         LayerDefinition ballLayer = BallModel.createBodyLayer();
         ModelPart ballPart = ballLayer.bakeRoot();
         PlayerOverride.model = new BallModel<LivingEntity>(ballPart);
-
-        
     }
 }

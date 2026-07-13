@@ -39,6 +39,7 @@ public class Bullet extends Projectile {
                     entityHit.getEntity().hurt(level().damageSources().playerAttack((Player)owner), 2.0f);
                 }
                 this.discard();
+                return;
             }
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().add(0, 0, 0));
