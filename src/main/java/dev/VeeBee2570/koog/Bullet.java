@@ -15,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class Bullet extends Projectile {
     protected LivingEntity owner;
-    private final float speed = 5;
+    private final float speed = 1;
 
     public Bullet(EntityType<? extends Bullet> p_19870_, Level p_19871_) {
         super(p_19870_, p_19871_);
