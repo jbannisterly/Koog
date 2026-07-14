@@ -1,5 +1,12 @@
 package dev.VeeBee2570.koog;
 
+import java.io.IOException;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Renderable;
@@ -10,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.server.packs.resources.Resource;;
 
 public class CharacterScreen extends Screen{
 
@@ -21,10 +29,33 @@ public class CharacterScreen extends Screen{
 
     @Override
     public void init() {
-        CharacterButton button = new CharacterButton(0, 0, 32, 32, 0, 0, 16, 
-            new ResourceLocation("minecraft", "textures/entity/example_atlas.png"), 256, 256, 
-        pressedButton -> {ExampleMod.LOGGER.info("Pressed button");});
-        this.addRenderableWidget(button);
+
+        final int textureImageWidth = 16;
+        final int gridImageCount = 17;
+        final int texSize = 16;
+        final int gridImageSize = 16;
+        
+        ResourceLocation charactersLoc = new ResourceLocation("minecraft", "character_list.json");
+        Resource characterRes = Minecraft.getInstance().getResourceManager().getResource(charactersLoc).orElseThrow();
+        String[] characters = {"default"};
+        try {
+            characters = new Gson().fromJson(characterRes.openAsReader(), String[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ResourceLocation flagAtlas = new ResourceLocation("minecraft", "textures/entity/ball/flag_atlas.png");
+
+        for (int i = 0; i < 243; i++) {
+            CharacterButton button = new CharacterButton(
+                i % gridImageCount * gridImageSize, i / gridImageCount * gridImageSize, 
+                texSize, texSize, 
+                (i % textureImageWidth) *  texSize, (i / textureImageWidth) * texSize, 
+                (int)(texSize * 0.25), flagAtlas
+                , 512, 512, 
+            pressedButton -> {ExampleMod.LOGGER.info("Pressed button");});
+            this.addRenderableWidget(button);
+        }
     }
 
     @Override
