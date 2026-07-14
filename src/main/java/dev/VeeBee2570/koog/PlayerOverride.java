@@ -81,7 +81,7 @@ public class PlayerOverride {
         PlayerOverride.model = new BallModel<LivingEntity>(ballPart);
     }
 
-    private static ResourceLocation getSkin(Player player) {
+    public static ResourceLocation getSkin(Player player) {
         CompoundTag data = player.getPersistentData();
         String skin = data.getString("koog:skin");
         
@@ -90,7 +90,7 @@ public class PlayerOverride {
         return new ResourceLocation("minecraft", "textures/entity/ball/" + skin + "_atlas.png");
     }
 
-    private static void setSkin(Player player, String skinName) {
+    public static void setSkin(Player player, String skinName) {
         CompoundTag data = player.getPersistentData();
         data.putString("koog:skin", skinName);
     }

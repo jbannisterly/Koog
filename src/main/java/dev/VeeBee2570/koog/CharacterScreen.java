@@ -48,12 +48,13 @@ public class CharacterScreen extends Screen{
 
         for (int i = 0; i < 243; i++) {
             CharacterButton button = new CharacterButton(
+                ((Integer)i).toString(),
                 i % gridImageCount * gridImageSize, i / gridImageCount * gridImageSize, 
                 texSize, texSize, 
                 (i % textureImageWidth) *  texSize, (i / textureImageWidth) * texSize, 
                 (int)(texSize * 0.25), flagAtlas
                 , 512, 512, 
-            pressedButton -> {ExampleMod.LOGGER.info("Pressed button");});
+            pressedButton -> {((CharacterButton)pressedButton).SelectCharacter();});
             this.addRenderableWidget(button);
         }
     }
