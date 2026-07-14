@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -34,7 +35,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         while (ClientRegister.characterSelect != null && ClientRegister.characterSelect.consumeClick()) {
-            ExampleMod.LOGGER.info("Click event occured");
+            Minecraft.getInstance().setScreen(new CharacterScreen(Component.literal("Character Select")));
         }
     }
 }
