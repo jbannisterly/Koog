@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -27,6 +28,13 @@ public class ClientEvents {
                 event.setCanceled(true);
                 NetworkMessages.channel.sendToServer(new PacketFireGun("client data"));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        while (ClientRegister.characterSelect != null && ClientRegister.characterSelect.consumeClick()) {
+            ExampleMod.LOGGER.info("Click event occured");
         }
     }
 }
