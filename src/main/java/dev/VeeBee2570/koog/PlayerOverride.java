@@ -6,12 +6,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
+import cpw.mods.modlauncher.api.ITransformationService.Resource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +50,7 @@ public class PlayerOverride {
         PlayerOverride.model.setupAnim(player, player.tickCount + event.getPartialTick(), 1f, 0, 0, player.getXRot());
         
         
-        ResourceLocation bodyTexture = new ResourceLocation("minecraft", "textures/entity/ball/default_atlas.png");
+        ResourceLocation bodyTexture = getSkin(player);
         VertexConsumer bodyBuffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(bodyTexture));
         PlayerOverride.model.renderToBuffer(pose, bodyBuffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         
@@ -77,5 +79,19 @@ public class PlayerOverride {
         LayerDefinition ballLayer = BallModel.createBodyLayer();
         ModelPart ballPart = ballLayer.bakeRoot();
         PlayerOverride.model = new BallModel<LivingEntity>(ballPart);
+    }
+
+    private static ResourceLocation getSkin(Player player) {
+        CompoundTag data = player.getPersistentData();
+        String skin = data.getString("koog:skin");
+        
+        if (skin == "") skin = "default";
+
+        return new ResourceLocation("minecraft", "textures/entity/ball/" + skin + "_atlas.png");
+    }
+
+    private static void setSkin(Player player, String skinName) {
+        CompoundTag data = player.getPersistentData();
+        data.putString("koog:skin", skinName);
     }
 }
