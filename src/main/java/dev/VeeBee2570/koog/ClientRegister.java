@@ -1,7 +1,13 @@
 package dev.VeeBee2570.koog;
 
+import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.platform.InputConstants;
+
+import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -21,4 +27,9 @@ public class ClientRegister {
         );
     }
 
+    @SubscribeEvent
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        KeyMapping key = new KeyMapping("character_select", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, "koog");
+        event.register(key);
+    }
 }
