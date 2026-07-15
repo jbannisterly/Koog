@@ -2,6 +2,8 @@ package dev.VeeBee2570.koog;
 
 import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +25,14 @@ public class ServerEvents {
         ExampleMod.LOGGER.info("Sending join value " + characterID);
 
         NetworkMessages.channel.send(PacketDistributor.ALL.noArg(), new PacketChangeCharacterClient(characterID, playerID));
+
+        for (Player existingPlayer: player.getServer().getPlayerList().getPlayers()) {
+            UUID otherPlayerID = existingPlayer.getUUID();
+            if (otherPlayerID != playerID) {
+                int otherCharacterID = Integer.parseInt(existingPlayer.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG).getString("koog:skin"));
+                NetworkMessages.channel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer)player), new PacketChangeCharacterClient(otherCharacterID, otherPlayerID));
+            }
+        }
     }
 
     @SubscribeEvent
