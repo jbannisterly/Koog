@@ -17,8 +17,7 @@ public class CharacterButton extends ImageButton {
     }
 
     public void SelectCharacter() {
-        LocalPlayer player = Minecraft.getInstance().player;
-        PlayerOverride.setSkin(player, identifier);
+        NetworkMessages.channel.sendToServer(new PacketChangeCharacterServer(Integer.parseInt(identifier)));
     }
     
 }

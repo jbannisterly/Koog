@@ -34,7 +34,7 @@ public class PlayerOverride {
            PlayerOverride.inHandRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer();
         }
 
-        ExampleMod.LOGGER.info("Intercepted render layer event");
+        // ExampleMod.LOGGER.info("Intercepted render layer event");
         event.setCanceled(true);
 
         int light = 15728880;
@@ -82,16 +82,13 @@ public class PlayerOverride {
     }
 
     public static ResourceLocation getSkin(Player player) {
-        CompoundTag data = player.getPersistentData();
+        CompoundTag data = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
         String skin = data.getString("koog:skin");
-        
-        if (skin == "") skin = "default";
+
+        if (skin.equals("")) skin = "default";
+
+        ExampleMod.LOGGER.info("Rendering skin " + skin);
 
         return new ResourceLocation("minecraft", "textures/entity/ball/" + skin + "_atlas.png");
-    }
-
-    public static void setSkin(Player player, String skinName) {
-        CompoundTag data = player.getPersistentData();
-        data.putString("koog:skin", skinName);
     }
 }

@@ -16,11 +16,9 @@ public class PacketFireGun {
     }
 
     public void encoder(FriendlyByteBuf buffer) {
-
     }
 
     public static PacketFireGun decoder(FriendlyByteBuf buffer) {
-        
         return new PacketFireGun("decoder message");
     }
 

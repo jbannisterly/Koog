@@ -20,5 +20,17 @@ public class NetworkMessages {
         .decoder(PacketFireGun::decoder)
         .consumerMainThread(PacketFireGun::messageConsumer)
         .add();
+
+        channel.messageBuilder(PacketChangeCharacterServer.class, 1)
+        .encoder(PacketChangeCharacterServer::encoder)
+        .decoder(PacketChangeCharacterServer::decoder)
+        .consumerMainThread(PacketChangeCharacterServer::messageConsumer)
+        .add();
+
+        channel.messageBuilder(PacketChangeCharacterClient.class, 2)
+        .encoder(PacketChangeCharacterClient::encoder)
+        .decoder(PacketChangeCharacterClient::decoder)
+        .consumerMainThread(PacketChangeCharacterClient::messageConsumer)
+        .add();
     }
 }
