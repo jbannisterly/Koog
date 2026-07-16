@@ -13,6 +13,8 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,15 +25,13 @@ public class CharacterScreen extends Screen{
 
     public CharacterScreen(Component component) {
         super(component);
-
-
     }
 
     @Override
     public void init() {
 
-        final int textureImageWidth = 16;
-        final int gridImageCount = 17;
+        final int textureImageWidth = 17;
+        final int gridImageCount = 16;
         final int texSize = 16;
         final int gridImageSize = 16;
         
@@ -46,7 +46,7 @@ public class CharacterScreen extends Screen{
 
         ResourceLocation flagAtlas = new ResourceLocation("minecraft", "textures/entity/ball/flag_atlas.png");
 
-        for (int i = 0; i < 243; i++) {
+        for (int i = 0; i < 258; i++) {
             CharacterButton button = new CharacterButton(
                 ((Integer)i).toString(),
                 i % gridImageCount * gridImageSize, i / gridImageCount * gridImageSize, 
@@ -61,9 +61,13 @@ public class CharacterScreen extends Screen{
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        LocalPlayer currentPlayer = Minecraft.getInstance().player;
+
         this.renderBackground(graphics);
 
         super.render(graphics, mouseX, mouseY, partialTicks);    
+
+        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, 288, 128, 32, 288 - mouseX, 128 - mouseY, currentPlayer);
     }
 
 
