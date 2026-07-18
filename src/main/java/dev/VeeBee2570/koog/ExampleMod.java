@@ -59,7 +59,7 @@ public class ExampleMod
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final RegistryObject<Item> GRENADE_LAUNCHER = ITEMS.register("grenade_launcher", () -> new Gun(new Item.Properties()).SetBulletFactory(new GrenadeFactory()));
-    public static final RegistryObject<Item> GUN = ITEMS.register("gun", () -> new Gun(new Item.Properties()).SetBulletFactory(new BulletFactory()));
+    public static final RegistryObject<Item> GUN = ITEMS.register("pistol", () -> new Gun(new Item.Properties()).SetBulletFactory(new BulletFactory()));
     public static final RegistryObject<Item> SHOTGUN = ITEMS.register("shotgun", () -> new Gun(new Item.Properties()).SetBulletFactory(new ShotgunBulletFactory()).SetBulletQuantity(8));
 
 
