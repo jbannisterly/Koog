@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.client.gui.screens.Screen;
@@ -25,7 +26,10 @@ import net.minecraft.server.packs.resources.Resource;;
 
 public class CharacterScreen extends GuiScreen{
 
-    private List<List<CharacterButton>> screens = new ArrayList<List<CharacterButton>>();
+    private List<List<ImageButton>> screens = new ArrayList<List<ImageButton>>();
+    private int currentPage = 0;
+    private ImageButton nextButton;
+    private ImageButton prevButton;
 
     public CharacterScreen(Component component) {
         super(component);
@@ -51,24 +55,61 @@ public class CharacterScreen extends GuiScreen{
         }
 
         ResourceLocation flagAtlas = new ResourceLocation("minecraft", "textures/entity/ball/flag_atlas.png");
+        ResourceLocation next = new ResourceLocation("minecraft", "textures/block/dirt.png");
+        ResourceLocation prev = new ResourceLocation("minecraft", "textures/block/dirt.png");
 
-        List<CharacterButton> screen = new ArrayList<CharacterButton>();
+        List<ImageButton> screen = new ArrayList<ImageButton>();
+
         for (int i = 0; i < flagCount; i++) {
             screen.add(CreateButton(i % gridImageCountX, (i / gridImageCountX) % gridImageCountY, gridImageSize, i, textureImageWidth, texSize, flagAtlas));
             if ((i + 1) % (gridImageCountX * gridImageCountY) == 0 || i + 1 == flagCount) {
                 screens.add(new ArrayList<>(screen));
-                screen = new ArrayList<CharacterButton>();
+                screen = new ArrayList<ImageButton>();
             }
         }
-        ChangeScreen(1);
+
+        prevButton = new ImageButton(
+            16, 200,
+            16, 16,
+            0, 0,
+            0, prev,
+            32, 32,
+            pressedButton -> 
+            {
+                currentPage--;
+                ChangeScreen(currentPage);
+            }
+        );
+
+        nextButton = new ImageButton(
+            200, 200,
+            16, 16,
+            0, 0,
+            0, next,
+            32, 32,
+            pressedButton -> 
+            {
+                currentPage++;
+                ChangeScreen(currentPage);
+            }
+        );
+
+
+        ChangeScreen(0);
     }
 
     public void ChangeScreen(int screenIndex) {
-        List<CharacterButton> screen = screens.get(screenIndex);
+        List<ImageButton> screen = screens.get(screenIndex);
         clearWidgets();
         screen.forEach(button -> {
             addRenderableWidget(button);
         });
+        if (screenIndex > 0) {
+            addRenderableWidget(prevButton);
+        }
+        if (screenIndex < screens.size() - 1) {
+            addRenderableWidget(nextButton);
+        }
     }
 
     private CharacterButton CreateButton(int xPos, int yPos, int gridImageSize, int textureID, int textureImageWidth, int texSize, ResourceLocation flagAtlas) {
