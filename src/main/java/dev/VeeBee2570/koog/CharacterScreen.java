@@ -21,7 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.server.packs.resources.Resource;;
 
-public class CharacterScreen extends Screen{
+public class CharacterScreen extends GuiScreen{
 
     public CharacterScreen(Component component) {
         super(component);
@@ -65,9 +65,11 @@ public class CharacterScreen extends Screen{
 
         this.renderBackground(graphics);
 
-        super.render(graphics, mouseX, mouseY, partialTicks);    
+        // super.render(graphics, mouseX, mouseY, partialTicks);    
+        
+        RenderBack(graphics, 4, 4, 128, 256);
 
-        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, 288, 128, 32, 288 - mouseX, 128 - mouseY, currentPlayer);
+        // InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, 288, 128, 32, 288 - mouseX, 128 - mouseY, currentPlayer);
     }
 
 
