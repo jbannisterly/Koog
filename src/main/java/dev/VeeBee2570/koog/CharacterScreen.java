@@ -55,8 +55,8 @@ public class CharacterScreen extends GuiScreen{
         }
 
         ResourceLocation flagAtlas = new ResourceLocation("minecraft", "textures/entity/ball/flag_atlas.png");
-        ResourceLocation next = new ResourceLocation("minecraft", "textures/block/dirt.png");
-        ResourceLocation prev = new ResourceLocation("minecraft", "textures/block/dirt.png");
+        ResourceLocation next = new ResourceLocation("koog", "textures/gui/arrow_r.png");
+        ResourceLocation prev = new ResourceLocation("koog", "textures/gui/arrow_l.png");
 
         List<ImageButton> screen = new ArrayList<ImageButton>();
 
@@ -69,11 +69,11 @@ public class CharacterScreen extends GuiScreen{
         }
 
         prevButton = new ImageButton(
-            16, 200,
+            8, 200,
             16, 16,
             0, 0,
             0, prev,
-            32, 32,
+            16, 16,
             pressedButton -> 
             {
                 currentPage--;
@@ -82,11 +82,11 @@ public class CharacterScreen extends GuiScreen{
         );
 
         nextButton = new ImageButton(
-            200, 200,
+            278, 200,
             16, 16,
             0, 0,
             0, next,
-            32, 32,
+            16, 16,
             pressedButton -> 
             {
                 currentPage++;
@@ -113,7 +113,7 @@ public class CharacterScreen extends GuiScreen{
     }
 
     private CharacterButton CreateButton(int xPos, int yPos, int gridImageSize, int textureID, int textureImageWidth, int texSize, ResourceLocation flagAtlas) {
-        final int xOffset = 16;
+        final int xOffset = 8;
         final int yOffset = 128;
         final int border = 2;
         
@@ -134,7 +134,7 @@ public class CharacterScreen extends GuiScreen{
 
         this.renderBackground(graphics);
         
-        RenderBack(graphics, 8, 8, 288, 200);
+        RenderBack(graphics, 0, 0, 300, 220);
 
         super.render(graphics, mouseX, mouseY, partialTicks);    
 
