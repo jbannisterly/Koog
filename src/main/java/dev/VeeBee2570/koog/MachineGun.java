@@ -1,5 +1,7 @@
 package dev.VeeBee2570.koog;
 
+import java.util.List;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,6 +25,23 @@ public class MachineGun extends Entity {
         } else {
             return InteractionResult.PASS;
         }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        List<Entity> passengers = this.getPassengers();
+        
+        if (passengers.size() == 1) {
+            Entity passenger = passengers.get(0);
+
+            ExampleMod.LOGGER.info("passender " + passenger.getXRot());
+
+            this.setXRot(passenger.getXRot());
+            this.setYRot(passenger.getYRot());
+        }
+
     }
 
     @Override

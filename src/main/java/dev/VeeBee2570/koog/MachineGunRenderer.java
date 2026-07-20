@@ -2,6 +2,7 @@ package dev.VeeBee2570.koog;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.Model;
@@ -25,7 +26,15 @@ public class MachineGunRenderer extends EntityRenderer<MachineGun> {
     @Override
     public void render(MachineGun machineGun, float rotation, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(machineGun)));
+
+        poseStack.pushPose();
+
+        poseStack.mulPose(Axis.XN.rotationDegrees(machineGun.getXRot()));
+        poseStack.mulPose(Axis.YN.rotationDegrees(machineGun.getYRot()));
+
         this.model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+    
+        poseStack.popPose();
     }
 
 
