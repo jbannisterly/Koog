@@ -6,6 +6,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -28,6 +29,11 @@ public class ClientRegister {
         event.registerEntityRenderer(
             ExampleMod.BULLET_TYPE.get(),
             BulletRenderer::new
+        );
+
+        event.registerEntityRenderer(
+            ExampleMod.MACHINE_GUN_TYPE.get(),
+            MachineGunRenderer::new 
         );
     }
 
