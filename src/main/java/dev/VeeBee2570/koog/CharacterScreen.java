@@ -30,6 +30,11 @@ public class CharacterScreen extends GuiScreen{
     private int currentPage = 0;
     private ImageButton nextButton;
     private ImageButton prevButton;
+    private final int imageWidth = 300;
+    private final int imageHeight = 220;
+    private int offsetX;
+    private int offsetY;
+
 
     public CharacterScreen(Component component) {
         super(component);
@@ -44,6 +49,11 @@ public class CharacterScreen extends GuiScreen{
         final int gridImageCountX = 16;
         final int gridImageCountY = 4;
         final int flagCount = 258;
+
+        this.offsetX = (this.width - this.imageWidth) / 2;
+        this.offsetY = (this.height - this.imageHeight) / 2;
+
+        ExampleMod.LOGGER.info(String.valueOf(offsetX));
         
         ResourceLocation charactersLoc = new ResourceLocation("minecraft", "character_list.json");
         Resource characterRes = Minecraft.getInstance().getResourceManager().getResource(charactersLoc).orElseThrow();
@@ -59,6 +69,7 @@ public class CharacterScreen extends GuiScreen{
         ResourceLocation prev = new ResourceLocation("koog", "textures/gui/arrow_l.png");
 
         List<ImageButton> screen = new ArrayList<ImageButton>();
+        this.screens = new ArrayList<>();
 
         for (int i = 0; i < flagCount; i++) {
             screen.add(CreateButton(i % gridImageCountX, (i / gridImageCountX) % gridImageCountY, gridImageSize, i, textureImageWidth, texSize, flagAtlas));
@@ -69,7 +80,7 @@ public class CharacterScreen extends GuiScreen{
         }
 
         prevButton = new ImageButton(
-            8, 200,
+            8 + offsetX, 200 + offsetY,
             16, 16,
             0, 0,
             0, prev,
@@ -82,7 +93,7 @@ public class CharacterScreen extends GuiScreen{
         );
 
         nextButton = new ImageButton(
-            278, 200,
+            278 + offsetX, 200 + offsetY,
             16, 16,
             0, 0,
             0, next,
@@ -116,10 +127,12 @@ public class CharacterScreen extends GuiScreen{
         final int xOffset = 8;
         final int yOffset = 128;
         final int border = 2;
+
+        ExampleMod.LOGGER.info("Character button offset " + this.offsetX);
         
         CharacterButton button = new CharacterButton(
             ((Integer)textureID).toString(),
-            xPos * (gridImageSize + border) + xOffset, yPos * (gridImageSize + border) + yOffset, 
+            xPos * (gridImageSize + border) + xOffset + this.offsetX, yPos * (gridImageSize + border) + yOffset + this.offsetY, 
             texSize, texSize, 
             (textureID % textureImageWidth) *  texSize, (textureID / textureImageWidth) * texSize, 
             (int)(texSize * 0.25), flagAtlas
@@ -134,13 +147,13 @@ public class CharacterScreen extends GuiScreen{
 
         this.renderBackground(graphics);
         
-        RenderBack(graphics, 0, 0, 300, 220);
+        RenderBack(graphics, offsetX, offsetY, imageWidth, imageHeight);
 
         super.render(graphics, mouseX, mouseY, partialTicks);    
 
-        final int xCharacterPos = 128;
+        final int xCharacterPos = 150;
         final int yCharacterPos = 96;
-        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, xCharacterPos, yCharacterPos, 32, xCharacterPos - mouseX, yCharacterPos - mouseY, currentPlayer);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, xCharacterPos + offsetX, yCharacterPos + offsetY, 32, xCharacterPos + this.offsetX - mouseX, yCharacterPos + this.offsetY - mouseY, currentPlayer);
     }
 
 

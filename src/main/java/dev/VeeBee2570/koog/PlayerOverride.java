@@ -87,7 +87,7 @@ public class PlayerOverride {
 
         if (skin.equals("")) skin = "default";
 
-        ExampleMod.LOGGER.info("Rendering skin " + skin);
+        // ExampleMod.LOGGER.info("Rendering skin " + skin);
 
         return new ResourceLocation("minecraft", "textures/entity/ball/" + skin + "_atlas.png");
     }
