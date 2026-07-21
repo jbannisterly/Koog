@@ -17,7 +17,7 @@ import net.minecraft.world.entity.Entity;
 
 public class MachineGunRenderer extends EntityRenderer<MachineGun> {
 
-    private Model model = new BoatModel(BoatModel.createBodyModel().bakeRoot());
+    private Model model = new MachineGunModel<MachineGun>(MachineGunModel.createBodyLayer().bakeRoot());
 
     protected MachineGunRenderer(Context context) {
         super(context);
@@ -41,7 +41,7 @@ public class MachineGunRenderer extends EntityRenderer<MachineGun> {
     @Override
     public ResourceLocation getTextureLocation(MachineGun machineGun) {
         // temp texture
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/ball/ball.png");
+        return ResourceLocation.fromNamespaceAndPath("koog", "textures/entity/weapons/machine_gun.png");
     }
     
 }
