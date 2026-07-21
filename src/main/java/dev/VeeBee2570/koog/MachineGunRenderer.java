@@ -29,8 +29,8 @@ public class MachineGunRenderer extends EntityRenderer<MachineGun> {
 
         poseStack.pushPose();
 
-        poseStack.mulPose(Axis.XN.rotationDegrees(machineGun.getXRot()));
         poseStack.mulPose(Axis.YN.rotationDegrees(machineGun.getYRot()));
+        poseStack.mulPose(Axis.XP.rotationDegrees(machineGun.getXRot()));
 
         this.model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     
