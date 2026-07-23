@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,10 +33,20 @@ public class CharacterScreen extends GuiScreen{
     private int currentPage = 0;
     private ImageButton nextButton;
     private ImageButton prevButton;
-    private final int imageWidth = 300;
-    private final int imageHeight = 220;
-    private int offsetX;
-    private int offsetY;
+    private int globalOffsetX;
+    private int globalOffsetY;
+    private final int gridOffsetX = 8;
+    private final int gridOffsetY = 128;
+    private final int border = 4;
+    private final int textureImageWidth = 17;
+    private final int gridImageSize = 16;
+    private final int texSize = 16;
+    private final int gridImageCountX = 16;
+    private final int gridImageCountY = 4;
+    private final int flagCount = 258;
+
+    private final int imageWidth = 2 * gridOffsetX + (border + gridImageSize) * gridImageCountX - border;
+    private final int imageHeight = gridOffsetY + (border + gridImageSize) * gridImageCountY + 32;
 
 
     public CharacterScreen(Component component) {
@@ -45,17 +56,11 @@ public class CharacterScreen extends GuiScreen{
     @Override
     public void init() {
 
-        final int textureImageWidth = 17;
-        final int gridImageSize = 16;
-        final int texSize = 16;
-        final int gridImageCountX = 16;
-        final int gridImageCountY = 4;
-        final int flagCount = 258;
 
-        this.offsetX = (this.width - this.imageWidth) / 2;
-        this.offsetY = (this.height - this.imageHeight) / 2;
+        this.globalOffsetX = (this.width - this.imageWidth) / 2;
+        this.globalOffsetY = (this.height - this.imageHeight) / 2;
 
-        ExampleMod.LOGGER.info(String.valueOf(offsetX));
+        ExampleMod.LOGGER.info(String.valueOf(globalOffsetX));
         
         ResourceLocation charactersLoc = ResourceLocation.fromNamespaceAndPath("koog", "character_list.json");
         Resource characterRes = Minecraft.getInstance().getResourceManager().getResource(charactersLoc).orElseThrow();
@@ -82,7 +87,7 @@ public class CharacterScreen extends GuiScreen{
         }
 
         prevButton = new ImageButton(
-            8 + offsetX, 200 + offsetY,
+            gridOffsetX + globalOffsetX, gridImageCountY * (border + gridImageSize) + globalOffsetY + gridOffsetY + 4,
             16, 16,
             0, 0,
             0, prev,
@@ -95,7 +100,7 @@ public class CharacterScreen extends GuiScreen{
         );
 
         nextButton = new ImageButton(
-            278 + offsetX, 200 + offsetY,
+            imageWidth + globalOffsetX - 16 - gridOffsetX, gridImageCountY * (border + gridImageSize) + globalOffsetY + gridOffsetY + 4,
             16, 16,
             0, 0,
             0, next,
@@ -126,15 +131,12 @@ public class CharacterScreen extends GuiScreen{
     }
 
     private CharacterButton CreateButton(int xPos, int yPos, int gridImageSize, int textureID, int textureImageWidth, int texSize, ResourceLocation flagAtlas) {
-        final int xOffset = 8;
-        final int yOffset = 128;
-        final int border = 2;
 
-        ExampleMod.LOGGER.info("Character button offset " + this.offsetX);
+        ExampleMod.LOGGER.info("Character button offset " + this.globalOffsetX);
         
         CharacterButton button = new CharacterButton(
             ((Integer)textureID).toString(),
-            xPos * (gridImageSize + border) + xOffset + this.offsetX, yPos * (gridImageSize + border) + yOffset + this.offsetY, 
+            xPos * (gridImageSize + border) + gridOffsetX + this.globalOffsetX, yPos * (gridImageSize + border) + gridOffsetY + this.globalOffsetY, 
             texSize, texSize, 
             (textureID % textureImageWidth) *  texSize, (textureID / textureImageWidth) * texSize, 
             (int)(texSize * 0.25), flagAtlas
@@ -149,14 +151,16 @@ public class CharacterScreen extends GuiScreen{
 
         this.renderBackground(graphics);
         
-        RenderBack(graphics, offsetX, offsetY, imageWidth, imageHeight);
+        RenderBack(graphics, globalOffsetX, globalOffsetY, imageWidth, imageHeight);
 
         super.render(graphics, mouseX, mouseY, partialTicks);    
 
         final int xCharacterPos = 150;
         final int yCharacterPos = 96;
-        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, xCharacterPos + offsetX, yCharacterPos + offsetY, 32, xCharacterPos + this.offsetX - mouseX, yCharacterPos + this.offsetY - mouseY, currentPlayer);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, xCharacterPos + globalOffsetX, yCharacterPos + globalOffsetY, 32, xCharacterPos + this.globalOffsetX - mouseX, yCharacterPos + this.globalOffsetY - mouseY, currentPlayer);
     }
 
+    private void RenderSelection(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    }
 
 }
