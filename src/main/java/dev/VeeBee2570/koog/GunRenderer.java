@@ -48,7 +48,7 @@ public class GunRenderer extends EntityRenderer<Grenade> {
     @Override
     public ResourceLocation getTextureLocation(Grenade grenade) {
         // temp texture
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/bullet/grenade.png");
+        return ResourceLocation.fromNamespaceAndPath("koog", "textures/entity/bullet/grenade.png");
     }
     
 }

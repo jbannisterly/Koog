@@ -54,7 +54,7 @@ public class PlayerOverride {
         VertexConsumer bodyBuffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(bodyTexture));
         PlayerOverride.model.renderToBuffer(pose, bodyBuffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         
-        ResourceLocation eyeTexture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/ball/eye.png");
+        ResourceLocation eyeTexture = ResourceLocation.fromNamespaceAndPath("koog", "textures/entity/ball/eye.png");
         VertexConsumer eyeBuffer = event.getMultiBufferSource().getBuffer(RenderType.entityCutoutNoCull(eyeTexture));
         PlayerOverride.model.renderEyes(pose, eyeBuffer, light, OverlayTexture.NO_OVERLAY);
 
@@ -89,6 +89,6 @@ public class PlayerOverride {
 
         // ExampleMod.LOGGER.info("Rendering skin " + skin);
 
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/ball/" + skin + "_atlas.png");
+        return ResourceLocation.fromNamespaceAndPath("koog", "textures/entity/ball/" + skin + "_atlas.png");
     }
 }

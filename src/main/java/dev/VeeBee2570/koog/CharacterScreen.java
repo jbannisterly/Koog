@@ -57,7 +57,7 @@ public class CharacterScreen extends GuiScreen{
 
         ExampleMod.LOGGER.info(String.valueOf(offsetX));
         
-        ResourceLocation charactersLoc = ResourceLocation.fromNamespaceAndPath("minecraft", "character_list.json");
+        ResourceLocation charactersLoc = ResourceLocation.fromNamespaceAndPath("koog", "character_list.json");
         Resource characterRes = Minecraft.getInstance().getResourceManager().getResource(charactersLoc).orElseThrow();
         String[] characters = {"default"};
         try {
@@ -66,7 +66,7 @@ public class CharacterScreen extends GuiScreen{
             e.printStackTrace();
         }
 
-        ResourceLocation flagAtlas = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/ball/flag_atlas.png");
+        ResourceLocation flagAtlas = ResourceLocation.fromNamespaceAndPath("koog", "textures/entity/ball/flag_atlas.png");
         ResourceLocation next = ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/arrow_r.png");
         ResourceLocation prev = ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/arrow_l.png");
 
