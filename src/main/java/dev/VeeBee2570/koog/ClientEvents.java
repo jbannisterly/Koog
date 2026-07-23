@@ -38,5 +38,12 @@ public class ClientEvents {
         while (ClientRegister.characterSelect != null && ClientRegister.characterSelect.consumeClick()) {
             Minecraft.getInstance().setScreen(new CharacterScreen(Component.literal("Character Select")));
         }
+
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) {
+            if (player.getVehicle() instanceof MachineGun && Minecraft.getInstance().options.keyAttack.isDown()) {
+                NetworkMessages.channel.sendToServer(new PacketFireGun("client data"));
+            }
+        }
     }
 }

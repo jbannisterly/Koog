@@ -52,12 +52,6 @@ public class Gun extends Item implements Fireable{
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        this.Fire(level, player);
-        return InteractionResultHolder.pass(player.getItemInHand(hand));
-    }
-
-    @Override
     public ResourceLocation getBulletIcon() {
         return iconLocation;
     }   
