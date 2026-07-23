@@ -61,9 +61,9 @@ public class ExampleMod
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> GRENADE_LAUNCHER = ITEMS.register("grenade_launcher", () -> new Gun(new Item.Properties()).SetBulletFactory(new GrenadeFactory()).SetIconLocation(ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/grenade.png")));
-    public static final RegistryObject<Item> GUN = ITEMS.register("pistol", () -> new Gun(new Item.Properties()).SetBulletFactory(new BulletFactory()).SetIconLocation(ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/pistol.png")));
-    public static final RegistryObject<Item> SHOTGUN = ITEMS.register("shotgun", () -> new Gun(new Item.Properties()).SetBulletFactory(new ShotgunBulletFactory()).SetBulletQuantity(8).SetIconLocation(ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/shotgun.png")));
+    public static final RegistryObject<Item> GRENADE_LAUNCHER = ITEMS.register("grenade_launcher", () -> new Gun(new Item.Properties().stacksTo(1)).SetBulletFactory(new GrenadeFactory()).SetIconLocation(ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/grenade.png")));
+    public static final RegistryObject<Item> GUN = ITEMS.register("pistol", () -> new Gun(new Item.Properties().stacksTo(1)).SetBulletFactory(new BulletFactory()).SetIconLocation(ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/pistol.png")));
+    public static final RegistryObject<Item> SHOTGUN = ITEMS.register("shotgun", () -> new Gun(new Item.Properties().stacksTo(1)).SetBulletFactory(new ShotgunBulletFactory()).SetBulletQuantity(8).SetIconLocation(ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/shotgun.png")));
 
 
     public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.1f, 0.1f).updateInterval(1).build("grenade"));
