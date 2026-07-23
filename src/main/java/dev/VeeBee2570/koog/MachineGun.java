@@ -112,7 +112,7 @@ public class MachineGun extends Entity implements Fireable {
 
     @Override
     public ResourceLocation getBulletIcon() {
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/hud/food_full.png");
+        return ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/machinegun.png");
     }
 
     @Override

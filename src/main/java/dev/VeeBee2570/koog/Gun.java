@@ -15,6 +15,7 @@ public class Gun extends Item implements Fireable{
 
     private ProjectileFactory bulletFactory;
     private int bulletQuantity = 1;
+    private ResourceLocation iconLocation;
 
     public Gun(Properties p_41383_) {
         super(p_41383_);
@@ -45,6 +46,11 @@ public class Gun extends Item implements Fireable{
         return this;
     }
 
+    public Gun SetIconLocation(ResourceLocation icon) {
+        iconLocation = icon;
+        return this;
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         this.Fire(level, player);
@@ -53,7 +59,7 @@ public class Gun extends Item implements Fireable{
 
     @Override
     public ResourceLocation getBulletIcon() {
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/hud/food_full.png");
+        return iconLocation;
     }   
 
     @Override
