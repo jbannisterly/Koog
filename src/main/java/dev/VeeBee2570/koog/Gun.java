@@ -1,5 +1,6 @@
 package dev.VeeBee2570.koog;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -39,5 +40,15 @@ public class Gun extends Item implements Fireable{
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         this.Fire(level, player);
         return InteractionResultHolder.pass(player.getItemInHand(hand));
+    }
+
+    @Override
+    public ResourceLocation getBulletIcon() {
+        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/hud/food_full.png");
+    }   
+
+    @Override
+    public int getBulletCount() {
+        return 4;
     }
 }

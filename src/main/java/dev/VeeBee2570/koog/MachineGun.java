@@ -3,6 +3,7 @@ package dev.VeeBee2570.koog;
 import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -70,6 +71,16 @@ public class MachineGun extends Entity implements Fireable {
     public void Fire(Level level, Player player) {
         Projectile bullet = bulletFactory.get(level, player, this.getLookAngle(), new Vec3(this.getX(), this.getY(), this.getZ()));
         level.addFreshEntity(bullet);
+    }
+
+    @Override
+    public ResourceLocation getBulletIcon() {
+        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/sprites/hud/food_full.png");
+    }
+
+    @Override
+    public int getBulletCount() {
+        return 5;
     }
     
 }
