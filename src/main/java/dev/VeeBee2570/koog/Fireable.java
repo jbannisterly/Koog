@@ -6,6 +6,6 @@ import net.minecraft.world.level.Level;
 
 public interface Fireable {
     public ResourceLocation getBulletIcon();
-    public int getBulletCount();
+    public int getBulletCount(Player player);
     public void Fire(Level level, Player player);
 }

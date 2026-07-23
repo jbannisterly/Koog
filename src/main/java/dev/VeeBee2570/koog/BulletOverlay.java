@@ -29,12 +29,12 @@ public class BulletOverlay {
 
             if (currentFireable != null){
                 ResourceLocation icon = currentFireable.getBulletIcon();
-                int bulletCount = currentFireable.getBulletCount();
+                int bulletCount = currentFireable.getBulletCount(currentPlayer);
                 int offsetX = width / 2 - 91;
                 int offsetY = height - gui.leftHeight;
                 
-                for (int i = 1; i < bulletCount; i++) {
-                    graphics.blit(icon, offsetX + i * 8 - 8, offsetY, 0, 0, 9, 9, 9, 9);
+                for (int i = 0; i < bulletCount; i++) {
+                    graphics.blit(icon, offsetX + i * 8, offsetY, 0, 0, 9, 9, 9, 9);
                 }
             }
 

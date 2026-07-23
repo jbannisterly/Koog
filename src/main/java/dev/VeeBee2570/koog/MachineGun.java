@@ -1,8 +1,12 @@
 package dev.VeeBee2570.koog;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -15,7 +19,15 @@ import net.minecraft.world.phys.Vec3;
 
 public class MachineGun extends Entity implements Fireable {
 
-    ProjectileFactory bulletFactory = new BulletFactory();
+    private static final EntityDataAccessor<Integer> bulletCount = SynchedEntityData.defineId(
+        MachineGun.class, EntityDataSerializers.INT
+    );
+
+    private int fractionalBullet = 0;
+    private final int ticksPerBullet = 5;
+    private int fireCooldown = 0;
+    private final int fireCooldownTicks = 10;
+    private ProjectileFactory bulletFactory = new BulletFactory();
 
     public MachineGun(EntityType<MachineGun> entityType, Level level) {
         super(entityType, level);
@@ -36,16 +48,33 @@ public class MachineGun extends Entity implements Fireable {
     public void tick() {
         super.tick();
 
-        List<Entity> passengers = this.getPassengers();
+        if (!this.level().isClientSide()) {
+            int bulletCount = this.entityData.get(MachineGun.bulletCount);
+            List<Entity> passengers = this.getPassengers();
         
-        if (passengers.size() == 1) {
-            Entity passenger = passengers.get(0);
+            if (passengers.size() == 1) {
+                Entity passenger = passengers.get(0);
 
-            ExampleMod.LOGGER.info("passenger " + passenger.getXRot());
+                // ExampleMod.LOGGER.info("passenger " + passenger.getXRot());
 
-            this.setXRot(passenger.getXRot());
-            this.setYRot(passenger.getYRot());
+                this.setXRot(passenger.getXRot());
+                this.setYRot(passenger.getYRot());
+            }
+
+            if (bulletCount < 10) {
+                if (fireCooldown == 0) {
+                    ExampleMod.LOGGER.info("Reloading bullets " + fractionalBullet + " " + bulletCount);
+                    fractionalBullet++;
+                    if (fractionalBullet == ticksPerBullet) {
+                        this.entityData.set(MachineGun.bulletCount, bulletCount + 1);
+                        fractionalBullet = 0;
+                    }
+                } else {
+                    fireCooldown--;
+                }
+            }
         }
+
 
     }
 
@@ -57,6 +86,7 @@ public class MachineGun extends Entity implements Fireable {
 
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(bulletCount, 10);
     }
 
     @Override
@@ -69,8 +99,15 @@ public class MachineGun extends Entity implements Fireable {
 
     @Override
     public void Fire(Level level, Player player) {
-        Projectile bullet = bulletFactory.get(level, player, this.getLookAngle(), new Vec3(this.getX(), this.getY(), this.getZ()));
-        level.addFreshEntity(bullet);
+        int bulletCount = this.entityData.get(MachineGun.bulletCount);
+
+        if (bulletCount > 0) {
+            Projectile bullet = bulletFactory.get(level, player, this.getLookAngle(), new Vec3(this.getX(), this.getY(), this.getZ()));
+            level.addFreshEntity(bullet);
+            fireCooldown = fireCooldownTicks;
+            this.entityData.set(MachineGun.bulletCount, bulletCount - 1);
+        }
+
     }
 
     @Override
@@ -79,8 +116,11 @@ public class MachineGun extends Entity implements Fireable {
     }
 
     @Override
-    public int getBulletCount() {
-        return 5;
+    public int getBulletCount(Player player) {
+        int bulletCount = this.entityData.get(MachineGun.bulletCount);
+
+        ExampleMod.LOGGER.info("bullet count " + bulletCount);
+        return bulletCount;
     }
     
 }

@@ -1,5 +1,6 @@
 package dev.VeeBee2570.koog;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -20,10 +21,18 @@ public class Gun extends Item implements Fireable{
     }
 
     public void Fire(Level level, Player player) {
-        for (int i = 0; i < bulletQuantity; i++) {
-            Projectile bullet = bulletFactory.get(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(0.5), player.getZ()));
-            level.addFreshEntity(bullet);
+        ItemStack currentStack = player.getMainHandItem();
+        int bulletCount = ReadBulletCount(currentStack); 
+
+        if (bulletCount > 0) {
+            for (int i = 0; i < bulletQuantity; i++) {
+                Projectile bullet = bulletFactory.get(level, player, player.getLookAngle(), new Vec3(player.getX(), player.getY(0.5), player.getZ()));
+                level.addFreshEntity(bullet);
+            }
+            bulletCount--;
         }
+
+        SetBulletCount(currentStack, bulletCount);
     }
 
     public Gun SetBulletFactory(ProjectileFactory bulletFactory) {
@@ -48,7 +57,26 @@ public class Gun extends Item implements Fireable{
     }   
 
     @Override
-    public int getBulletCount() {
-        return 4;
+    public int getBulletCount(Player player) {
+        ItemStack currentStack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        int bulletCount = ReadBulletCount(currentStack); 
+
+        return bulletCount;
+    }
+
+    private int ReadBulletCount(ItemStack currentStack) {
+        CompoundTag tag = currentStack.getOrCreateTag();
+        if (!tag.contains("bulletCount")) {
+            tag.putInt("bulletCount", 10);
+        }
+
+        return tag.getInt("bulletCount");
+    }
+
+    private void SetBulletCount(ItemStack currentStack, int value) {
+        CompoundTag tag = currentStack.getOrCreateTag();
+
+        tag.putInt("bulletCount", value);
     }
 }
+

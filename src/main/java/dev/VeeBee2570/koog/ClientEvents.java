@@ -26,7 +26,7 @@ public class ClientEvents {
             Boolean isGun = currentItem instanceof Gun;
             Boolean ridingMachineGun = player.getVehicle() instanceof MachineGun;
             if (isGun || ridingMachineGun) {
-                ExampleMod.LOGGER.info("Fire gun event");
+                // ExampleMod.LOGGER.info("Fire gun event");
                 event.setCanceled(true);
                 NetworkMessages.channel.sendToServer(new PacketFireGun("client data"));
             }
