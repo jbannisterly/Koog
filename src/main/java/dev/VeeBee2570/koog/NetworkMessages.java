@@ -11,7 +11,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public class NetworkMessages {
     
     public static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
-        new ResourceLocation(ExampleMod.MODID, "channel"),
+        ResourceLocation.fromNamespaceAndPath(ExampleMod.MODID, "channel"),
         () -> "1", "1"::equals, "1"::equals);
 
     public static void register() {

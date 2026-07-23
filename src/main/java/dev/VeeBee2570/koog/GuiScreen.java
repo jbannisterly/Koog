@@ -7,16 +7,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class GuiScreen extends Screen{
-    public static final ResourceLocation BACK_00 = new ResourceLocation("koog","textures/gui/back_00.png");
-    public static final ResourceLocation BACK_01 = new ResourceLocation("koog","textures/gui/back_01.png");
-    public static final ResourceLocation BACK_02 = new ResourceLocation("koog","textures/gui/back_02.png");
-    public static final ResourceLocation BACK_10 = new ResourceLocation("koog","textures/gui/back_10.png");
-    public static final ResourceLocation BACK_11 = new ResourceLocation("koog","textures/gui/back_11.png");
-    public static final ResourceLocation BACK_12 = new ResourceLocation("koog","textures/gui/back_12.png");
-    public static final ResourceLocation BACK_20 = new ResourceLocation("koog","textures/gui/back_20.png");
-    public static final ResourceLocation BACK_21 = new ResourceLocation("koog","textures/gui/back_21.png");
-    public static final ResourceLocation BACK_22 = new ResourceLocation("koog","textures/gui/back_22.png");
-    public static final ResourceLocation TEST = new ResourceLocation("minecraft", "textures/block/dirt.png");
+    public static final ResourceLocation BACK_00 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_00.png");
+    public static final ResourceLocation BACK_01 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_01.png");
+    public static final ResourceLocation BACK_02 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_02.png");
+    public static final ResourceLocation BACK_10 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_10.png");
+    public static final ResourceLocation BACK_11 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_11.png");
+    public static final ResourceLocation BACK_12 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_12.png");
+    public static final ResourceLocation BACK_20 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_20.png");
+    public static final ResourceLocation BACK_21 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_21.png");
+    public static final ResourceLocation BACK_22 = ResourceLocation.fromNamespaceAndPath("koog","textures/gui/back_22.png");
+    public static final ResourceLocation TEST = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/dirt.png");
 
 
     protected GuiScreen(Component component) {
