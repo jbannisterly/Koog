@@ -8,9 +8,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public class MachineGun extends Entity {
+public class MachineGun extends Entity implements Fireable {
+
+    ProjectileFactory bulletFactory = new BulletFactory();
 
     public MachineGun(EntityType<MachineGun> entityType, Level level) {
         super(entityType, level);
@@ -36,7 +40,7 @@ public class MachineGun extends Entity {
         if (passengers.size() == 1) {
             Entity passenger = passengers.get(0);
 
-            ExampleMod.LOGGER.info("passender " + passenger.getXRot());
+            ExampleMod.LOGGER.info("passenger " + passenger.getXRot());
 
             this.setXRot(passenger.getXRot());
             this.setYRot(passenger.getYRot());
@@ -60,6 +64,12 @@ public class MachineGun extends Entity {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag p_20139_) {
+    }
+
+    @Override
+    public void Fire(Level level, Player player) {
+        Projectile bullet = bulletFactory.get(level, player, this.getLookAngle(), new Vec3(this.getX(), this.getY(), this.getZ()));
+        level.addFreshEntity(bullet);
     }
     
 }

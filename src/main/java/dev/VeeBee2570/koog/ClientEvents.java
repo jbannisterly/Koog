@@ -24,7 +24,8 @@ public class ClientEvents {
             LocalPlayer player = Minecraft.getInstance().player;
             Item currentItem = player.getMainHandItem().getItem();
             Boolean isGun = currentItem instanceof Gun;
-            if (isGun) {
+            Boolean ridingMachineGun = player.getVehicle() instanceof MachineGun;
+            if (isGun || ridingMachineGun) {
                 ExampleMod.LOGGER.info("Fire gun event");
                 event.setCanceled(true);
                 NetworkMessages.channel.sendToServer(new PacketFireGun("client data"));

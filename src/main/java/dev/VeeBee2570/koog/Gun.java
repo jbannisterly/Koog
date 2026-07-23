@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class Gun extends Item{
+public class Gun extends Item implements Fireable{
 
     private ProjectileFactory bulletFactory;
     private int bulletQuantity = 1;

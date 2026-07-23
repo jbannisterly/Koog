@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -27,8 +28,14 @@ public class PacketFireGun {
             ServerPlayer player = context.get().getSender();
             Item currentItem = player.getMainHandItem().getItem();
             Boolean isGun = currentItem instanceof Gun;
+            Entity vehicle = player.getVehicle();
+            Boolean isMachineGun = vehicle instanceof MachineGun;
             if (isGun) {
                 Gun currentGun = (Gun)currentItem;
+                currentGun.Fire(player.level(), player);
+            }
+            if (isMachineGun) {
+                MachineGun currentGun = (MachineGun)vehicle;
                 currentGun.Fire(player.level(), player);
             }
         });
