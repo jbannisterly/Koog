@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 public class MachineGunRenderer extends EntityRenderer<MachineGun> {
 
@@ -26,11 +27,19 @@ public class MachineGunRenderer extends EntityRenderer<MachineGun> {
     @Override
     public void render(MachineGun machineGun, float rotation, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(machineGun)));
+        Entity rotationCopy = machineGun;
+
+        if (machineGun.hasExactlyOnePlayerPassenger()) {
+            Entity passenger = machineGun.getPassengers().get(0);
+            if (passenger instanceof Player) {
+                rotationCopy = passenger;
+            }
+        }
 
         poseStack.pushPose();
 
-        poseStack.mulPose(Axis.YN.rotationDegrees(machineGun.getYRot()));
-        poseStack.mulPose(Axis.XP.rotationDegrees(machineGun.getXRot()));
+        poseStack.mulPose(Axis.YN.rotationDegrees(rotationCopy.getYRot()));
+        poseStack.mulPose(Axis.XP.rotationDegrees(rotationCopy.getXRot()));
 
         this.model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     
