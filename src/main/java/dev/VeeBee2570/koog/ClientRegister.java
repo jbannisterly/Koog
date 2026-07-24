@@ -36,6 +36,11 @@ public class ClientRegister {
             ExampleMod.MACHINE_GUN_TYPE.get(),
             MachineGunRenderer::new 
         );
+
+        event.registerEntityRenderer(
+            ExampleMod.GRAPPLE_WIRE_TYPE.get(),
+            GrappleWireRenderer::new 
+        );
     }
 
     @SubscribeEvent

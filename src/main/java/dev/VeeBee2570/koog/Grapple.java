@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -48,19 +49,17 @@ public class Grapple extends Item {
             }
 
             if (blockDistance != Double.POSITIVE_INFINITY || entityDistance != Double.POSITIVE_INFINITY) {
-                HitResult.Type collisionType;
-                Vec3 collisionPosition;
+                GrappleWire grappleWire;
 
                 if (blockDistance < entityDistance) {
-                    collisionType = HitResult.Type.BLOCK;
-                    collisionPosition = blockCollision.getLocation();
+                    grappleWire = new GrappleWire(level, player, blockCollision.getLocation());
                 } else {
-                    collisionType = HitResult.Type.ENTITY;
-                    collisionPosition = entityCollision.getLocation();
+                    grappleWire = new GrappleWire(level, player, ((EntityHitResult)entityCollision).getEntity());
                 }
 
-                ExampleMod.LOGGER.info("grapple at " + collisionPosition.toString());
+                level.addFreshEntity(grappleWire);
             }
+
         }
         
         return InteractionResultHolder.success(itemStack);

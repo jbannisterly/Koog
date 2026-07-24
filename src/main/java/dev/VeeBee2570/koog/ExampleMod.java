@@ -69,6 +69,7 @@ public class ExampleMod
     public static final RegistryObject<EntityType<Grenade>> GRENADE_TYPE = ENTITIES.register("grenade", () -> EntityType.Builder.<Grenade>of(Grenade::new, MobCategory.MISC).sized(0.1f, 0.1f).updateInterval(1).build("grenade"));
     public static final RegistryObject<EntityType<Bullet>> BULLET_TYPE = ENTITIES.register("bullet", () -> EntityType.Builder.<Bullet>of(Bullet::new, MobCategory.MISC).sized(0.1f, 0.1f).updateInterval(1).build("bullet"));
     public static final RegistryObject<EntityType<MachineGun>> MACHINE_GUN_TYPE = ENTITIES.register("machine_gun", () -> EntityType.Builder.<MachineGun>of(MachineGun::new, MobCategory.MISC).build("machine_gun"));
+    public static final RegistryObject<EntityType<GrappleWire>> GRAPPLE_WIRE_TYPE = ENTITIES.register("grapple_wire", () -> EntityType.Builder.<GrappleWire>of(GrappleWire::new, MobCategory.MISC).build("grapple_wire"));
 
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
