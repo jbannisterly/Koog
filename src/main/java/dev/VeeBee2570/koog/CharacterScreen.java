@@ -19,9 +19,11 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -48,6 +50,10 @@ public class CharacterScreen extends GuiScreen{
     private final int imageWidth = 2 * gridOffsetX + (border + gridImageSize) * gridImageCountX - border;
     private final int imageHeight = gridOffsetY + (border + gridImageSize) * gridImageCountY + 32;
 
+    private final ResourceLocation selectedLocation = ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/selected.png");
+    private final ResourceLocation selectingLocation = ResourceLocation.fromNamespaceAndPath("koog", "textures/gui/selecting.png");
+
+    private int screenIndex = 0;
 
     public CharacterScreen(Component component) {
         super(component);
@@ -128,6 +134,8 @@ public class CharacterScreen extends GuiScreen{
         if (screenIndex < screens.size() - 1) {
             addRenderableWidget(nextButton);
         }
+
+        this.screenIndex = screenIndex;
     }
 
     private CharacterButton CreateButton(int xPos, int yPos, int gridImageSize, int textureID, int textureImageWidth, int texSize, ResourceLocation flagAtlas) {
@@ -139,7 +147,7 @@ public class CharacterScreen extends GuiScreen{
             xPos * (gridImageSize + border) + gridOffsetX + this.globalOffsetX, yPos * (gridImageSize + border) + gridOffsetY + this.globalOffsetY, 
             texSize, texSize, 
             (textureID % textureImageWidth) *  texSize, (textureID / textureImageWidth) * texSize, 
-            (int)(texSize * 0.25), flagAtlas
+            0, flagAtlas
             , 512, 512, 
             pressedButton -> {((CharacterButton)pressedButton).SelectCharacter();});
         return button;
@@ -155,12 +163,41 @@ public class CharacterScreen extends GuiScreen{
 
         super.render(graphics, mouseX, mouseY, partialTicks);    
 
+        RenderSelection(graphics, mouseX, mouseY, partialTicks, screens.get(screenIndex).size(), gridImageCountX * gridImageCountY * screenIndex);
+
         final int xCharacterPos = 150;
         final int yCharacterPos = 96;
         InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, xCharacterPos + globalOffsetX, yCharacterPos + globalOffsetY, 32, xCharacterPos + this.globalOffsetX - mouseX, yCharacterPos + this.globalOffsetY - mouseY, currentPlayer);
     }
 
-    private void RenderSelection(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    private void RenderSelection(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks, int characterCount, int characterOffset) {
+        int selectingIndexX = (mouseX - globalOffsetX - gridOffsetX + border) / (gridImageSize + border);
+        int selectingIndexY = (mouseY - globalOffsetY - gridOffsetY + border) / (gridImageSize + border);
+        RenderSelect(graphics, selectingLocation, selectingIndexX, selectingIndexY, characterCount);
+
+        int currentIndex = GetCurrentCharacter();
+        int indexOffset = currentIndex - characterOffset;
+        int selectedIndexX = indexOffset % gridImageCountX;
+        int selectedIndexY = indexOffset / gridImageCountX;
+        RenderSelect(graphics, selectedLocation, selectedIndexX, selectedIndexY, characterCount);
+
     }
+
+    private void RenderSelect(GuiGraphics graphics, ResourceLocation location, int selectIndexX, int selectIndexY, int characterCount) {
+        int selectingPixelsX = selectIndexX * (gridImageSize + border) + globalOffsetX + gridOffsetX - border;
+        int selectingPixelsY = selectIndexY * (gridImageSize + border) + globalOffsetY + gridOffsetY - border;
+        int selectingIndex = selectIndexX + selectIndexY * gridImageCountX;
+        
+        if (selectIndexX >= 0 && selectIndexX < gridImageCountX && selectIndexY >= 0 && selectIndexY < gridImageCountY && selectingIndex < characterCount) {
+            graphics.blit(location, selectingPixelsX, selectingPixelsY, 0, 0, 24, 24, 24, 24);
+        }
+    }
+
+    private int GetCurrentCharacter() {
+        Player player = (Player)Minecraft.getInstance().getCameraEntity();
+        CompoundTag data = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
+        return Integer.valueOf(data.getString("koog:skin"));
+    }
+
 
 }
