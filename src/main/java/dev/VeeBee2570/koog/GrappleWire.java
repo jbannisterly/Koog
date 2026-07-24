@@ -31,11 +31,20 @@ public class GrappleWire extends Entity {
         this.targetPosition = targetPosition;
     }
 
+    public void delete() {
+        this.discard();
+    }
+
     @Override
     public void tick() {
         super.tick();
 
         if (player != null) {
+            if (player.isRemoved()) {
+                this.delete();
+                return;
+            }
+
             Vec3 startPosition = this.player.position();
             Vec3 endPosition;
             if (target == null) {
@@ -53,6 +62,8 @@ public class GrappleWire extends Entity {
             }
         
             ExampleMod.LOGGER.info("set player velocity " + this.player.getDeltaMovement());
+        } else {
+            this.delete();
         }
 
     }

@@ -5,6 +5,8 @@ import org.apache.commons.compress.archivers.zip.PKWareExtraHeader.HashAlgorithm
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Item;
@@ -21,6 +23,20 @@ public class Grapple extends Item {
 
     public Grapple(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity player, int timeLeft) {        
+        if (!level.isClientSide()) {
+            CompoundTag currentWireTag = itemStack.getOrCreateTag();
+
+            removeExistingWire(level, currentWireTag);
+        }
+    }
+
+    @Override
+    public int getUseDuration(ItemStack itemStack) {
+        return 3600;
     }
     
     @Override
@@ -50,6 +66,7 @@ public class Grapple extends Item {
 
             if (blockDistance != Double.POSITIVE_INFINITY || entityDistance != Double.POSITIVE_INFINITY) {
                 GrappleWire grappleWire;
+                CompoundTag currentWireTag = itemStack.getOrCreateTag();
 
                 if (blockDistance < entityDistance) {
                     grappleWire = new GrappleWire(level, player, blockCollision.getLocation());
@@ -57,12 +74,26 @@ public class Grapple extends Item {
                     grappleWire = new GrappleWire(level, player, ((EntityHitResult)entityCollision).getEntity());
                 }
 
+                removeExistingWire(level, currentWireTag);
+
                 level.addFreshEntity(grappleWire);
+                currentWireTag.putInt("wire_id", grappleWire.getId());
+
+                player.startUsingItem(interactionHand);
             }
 
         }
         
-        return InteractionResultHolder.success(itemStack);
+        return InteractionResultHolder.consume(itemStack);
     }
+
+    private void removeExistingWire(Level level,  CompoundTag currentWireTag) {
+        Entity existing = level.getEntity(currentWireTag.getInt("wire_id"));
+        if (existing != null && existing instanceof GrappleWire) {
+            ((GrappleWire)existing).delete();
+        }
+
+    }
+
 
 }
