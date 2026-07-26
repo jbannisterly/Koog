@@ -28,7 +28,7 @@ public class GrappleWireRenderer extends EntityRenderer<GrappleWire> {
 
     @Override
     public ResourceLocation getTextureLocation(GrappleWire grappleWire) {
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/dirt.png");
+        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/stone.png");
     }
 
     @Override
@@ -43,6 +43,7 @@ public class GrappleWireRenderer extends EntityRenderer<GrappleWire> {
         Vec3 relativeStartPosition = startPosition.subtract(wire.position());
         Vec3 relativeEndPosition = endPosition.subtract(wire.position());
         Vec3 offset = (endPosition.subtract(startPosition)).cross(cameraDirection).multiply(1, 0, 1).normalize().scale(0.1);
+        float distance = (float)startPosition.subtract(endPosition).length() * 10;
 
         ExampleMod.LOGGER.info("offset " + offset.toString());
 
@@ -64,14 +65,14 @@ public class GrappleWireRenderer extends EntityRenderer<GrappleWire> {
             .endVertex();
         consumer.vertex(pose.pose(), (float)b.x, (float)b.y, (float)b.z)
             .color(255, 255, 255, 255)
-            .uv(0, 1)
+            .uv(0, distance)
             .overlayCoords(OverlayTexture.NO_OVERLAY)
             .uv2(packedLight)
             .normal(pose.normal(),0, 1, 0)
             .endVertex();
         consumer.vertex(pose.pose(), (float)c.x, (float)c.y, (float)c.z)
             .color(255, 255, 255, 255)
-            .uv(1, 1)
+            .uv(1, distance)
             .overlayCoords(OverlayTexture.NO_OVERLAY)
             .uv2(packedLight)
             .normal(pose.normal(),0, 1, 0)
