@@ -38,6 +38,8 @@ public class MachineGunRenderer extends EntityRenderer<MachineGun> {
 
         poseStack.pushPose();
 
+        ((MachineGunModel<MachineGun>)this.model).renderBase(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
+
         poseStack.mulPose(Axis.YN.rotationDegrees(rotationCopy.getYRot()));
         poseStack.mulPose(Axis.XP.rotationDegrees(rotationCopy.getXRot()));
 
