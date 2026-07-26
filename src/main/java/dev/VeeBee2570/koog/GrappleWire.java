@@ -81,6 +81,8 @@ public class GrappleWire extends Entity {
         if (!playerUUID.isEmpty()) {
             Player player = level().getPlayerByUUID(playerUUID.get());
 
+            player.fallDistance = 0;
+
             if (player.isRemoved()) {
                 this.delete();
                 return;
@@ -96,12 +98,12 @@ public class GrappleWire extends Entity {
                 Entity target = level().getEntity(targetEntityID);
 
                 endPosition = target.position();
-                target.setDeltaMovement(calculateEndVelocity(startPosition, endPosition));
+                target.setDeltaMovement(target.getDeltaMovement().add(calculateEndVelocity(startPosition, endPosition).scale(0.5)).scale(0.7));
                 target.hurtMarked = true;
 
             }
 
-            player.setDeltaMovement(calculateStartVelocity(startPosition, endPosition));
+            player.setDeltaMovement(player.getDeltaMovement().add(calculateStartVelocity(startPosition, endPosition).scale(0.5)).scale(0.7));
             player.hurtMarked = true;
 
             // ExampleMod.LOGGER.info("set player velocity " + this.player.getDeltaMovement());
