@@ -41,6 +41,9 @@ public class ClientRegister {
             ExampleMod.GRAPPLE_WIRE_TYPE.get(),
             GrappleWireRenderer::new 
         );
+
+        ExampleMod.LOGGER.info("registered renderers");
+        ExampleMod.LOGGER.info("register grapple type " + ExampleMod.GRAPPLE_WIRE_TYPE.get());
     }
 
     @SubscribeEvent
